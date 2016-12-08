@@ -2,16 +2,7 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
-
-
-struct ShipControl
-{
-	int x = 500;
-	int y = 500;
-	float r = 0;
-};
-
-ShipControl ship;
+#include "Physics2D.h"
 
 Application2D::Application2D() {
 
@@ -24,12 +15,14 @@ Application2D::~Application2D() {
 bool Application2D::startup() {
 	
 	m_2dRenderer = new aie::Renderer2D();
-	m_shipTexture = new aie::Texture("./textures/ship.png");
 	m_audio = new aie::Audio("./audio/powerup.wav");
 
 	m_cameraX = 0;
 	m_cameraY = 0;
 	m_timer = 0;
+
+	m_pinball.velocity.m_y = -2;
+	m_pinball.velocity.m_x = 0;
 
 	return true;
 }
@@ -37,40 +30,51 @@ bool Application2D::startup() {
 void Application2D::shutdown() {
 	
 	delete m_audio;
-	delete m_shipTexture;
 	delete m_2dRenderer;
 }
-
+bool cando = false;
 void Application2D::update(float deltaTime) {
 
 	m_timer += deltaTime;
 
-	// input example
+	
+	if (cando) {
+		//m_physics.updateGravity(m_pinball);
+		m_pinball.updatePos();
+		m_physics.updateCollision(m_floor, m_pinball);
+		m_physics.updateCollision(m_wall, m_pinball);
+		//line is x,y ; x,y
+		float w = getWindowWidth();
+		float h = getWindowHeight();
+	}
+
 	aie::Input* input = aie::Input::getInstance();
-
+	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
+		cando = !cando;
 	// use arrow keys to move camera
-	if (input->isKeyDown(aie::INPUT_KEY_UP) && !input->isKeyDown(aie::INPUT_KEY_DOWN))
-	{
-		ship.y += cos(ship.r) * 500.0f * deltaTime;
-		ship.x -= sin(ship.r) * 500.0f * deltaTime;
-	}
+	//if (input->isKeyDown(aie::INPUT_KEY_UP) && !input->isKeyDown(aie::INPUT_KEY_DOWN))
+	//{
 
-	else if (input->isKeyDown(aie::INPUT_KEY_DOWN) && !input->isKeyDown(aie::INPUT_KEY_UP))
-	{
-		ship.y -= cos(ship.r) * 500.0f * deltaTime;
-		ship.x += sin(ship.r) * 500.0f * deltaTime;
-	}
+	//}
 
-	else if (input->isKeyDown(aie::INPUT_KEY_UP) && input->isKeyDown(aie::INPUT_KEY_DOWN))
-	{
-		
-	}
+	//else if (input->isKeyDown(aie::INPUT_KEY_DOWN) && !input->isKeyDown(aie::INPUT_KEY_UP))
+	//{
+	//	ship.y -= cos(ship.r) * 500.0f * deltaTime;
+	//	ship.x += sin(ship.r) * 500.0f * deltaTime;
+	//}
 
-	if (input->isKeyDown(aie::INPUT_KEY_LEFT))
-		ship.r += 0.12f;
+	//else if (input->isKeyDown(aie::INPUT_KEY_UP) && input->isKeyDown(aie::INPUT_KEY_DOWN))
+	//{
+	//	
+	//}
 
-	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
-		ship.r -= 0.12f;
+	//if (input->isKeyDown(aie::INPUT_KEY_LEFT))
+	//	ship.r += 0.12f;
+
+	//if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
+	//	ship.r -= 0.12f;
+
+
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -88,10 +92,9 @@ void Application2D::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	// demonstrate spinning sprite
-	m_2dRenderer->setUVRect(0,0,1,1);
-	m_2dRenderer->drawSprite(m_shipTexture, ship.x, ship.y, 80, 80, ship.r, 2);
+	m_2dRenderer->drawCircle(m_pinball.x, m_pinball.y, m_pinball.r, 0);
+	m_2dRenderer->drawLine(m_floor.x, m_floor.y, m_floor.xo, m_floor.yo, 3, 0);
+	m_2dRenderer->drawLine(m_wall.x, m_wall.y, m_wall.xo, m_wall.yo, 3, 0);
 
-	// done drawing sprites
 	m_2dRenderer->end();
 }

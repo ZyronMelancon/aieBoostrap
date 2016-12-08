@@ -100,9 +100,11 @@
     <ClCompile Include="gl_core_4_4.c" />
     <ClCompile Include="imgui_glfw3.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Physics2D.cpp" />
     <ClCompile Include="Renderer2D.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependencies\imgui\imconfig.h" />
@@ -115,9 +117,11 @@
     <ClInclude Include="gl_core_4_4.h" />
     <ClInclude Include="imgui_glfw3.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Physics2D.h" />
     <ClInclude Include="Renderer2D.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
