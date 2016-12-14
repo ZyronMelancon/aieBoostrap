@@ -18,9 +18,9 @@ public:
 	virtual void draw();
 
 	PhysManager			m_physics;
-	Circ				m_pinball = { 400, 300, 30 };
-	Line				m_floor = { 100, 100, 800, 400 };
-	Line				m_wall = { 100, 100, 100, 700 };
+	Circ				m_pinball = { 50, 80, 30 };
+	Circ				m_startPoint = { 50, 80, 6 };
+	Line				m_lines[255];
 
 protected:
 

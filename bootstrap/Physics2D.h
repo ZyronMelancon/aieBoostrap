@@ -28,10 +28,12 @@ public:
 class Line : public PhysObject
 {
 public:
+	Line();
 	Line(float x1, float y1, float x2, float y2);
 	void updatePos();
 	void Debug() {};
 	float xo, yo;
+	bool active = false;
 };
 
 class Circ : public PhysObject
@@ -46,7 +48,8 @@ public:
 class PhysManager
 {
 public:
-	void applyForce(Circ b) {};
+	void applyForce(Circ &b, Vector2D force);
 	void updateCollision(Line &a, Circ &b);
 	void updateGravity(Circ &b);
+	void Reflect(Line &a, Circ &b);
 };
