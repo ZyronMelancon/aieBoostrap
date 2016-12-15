@@ -51,5 +51,5 @@ public:
 	void applyForce(Circ &b, Vector2D force);
 	void updateCollision(Line &a, Circ &b);
 	void updateGravity(Circ &b);
-	void Reflect(Line &a, Circ &b);
+	void Reflect(Line &a, Circ &b, float intensity);
 };

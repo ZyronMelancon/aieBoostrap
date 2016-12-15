@@ -59,7 +59,6 @@ void Application2D::update(float deltaTime) {
 		for (int i = 0; i < linenum; i++)
 			if (m_lines[i].active)
 				m_physics.updateCollision(m_lines[i], m_pinball);
-		//line is x,y ; x,y
 	}
 
 	aie::Input* input = aie::Input::getInstance();

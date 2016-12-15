@@ -10,7 +10,7 @@ void PhysManager::updateCollision(Line &a, Circ &b)
 {
 	//3.14p = 180d
 	//1p = 57.3d
-
+	 
 	float lineDeltaX = a.xo - a.x;
 	float lineDeltaY = a.yo - a.y;
 	float LineLength = sqrt(lineDeltaX*lineDeltaX + lineDeltaY*lineDeltaY);
@@ -21,22 +21,26 @@ void PhysManager::updateCollision(Line &a, Circ &b)
 	if (CurrentDistance <= CollisionDistance + 3)
 	{
 		//collision resolution
-		Reflect(a, b);
+		Reflect(a, b, 1.f);
 	}
 
-	
 }
 
-void PhysManager::Reflect(Line &a, Circ &b)
+void PhysManager::Reflect(Line &a, Circ &b, float intensity)
 {
 	float lineDeltaX = a.xo - a.x;
 	float lineDeltaY = a.yo - a.y;
 	Vector2D dir = b.position;
-	float mag = b.velocity.magnitude();
+	float mag = b.velocity.magnitude() * intensity;
 	dir.normalise();
-	float adj = -atan2(lineDeltaY, lineDeltaX);
+	float adj = -atan(lineDeltaY / lineDeltaX);
 	float hyp = dir.magnitude();
-	float theta = acos(adj / hyp);
+	float theta = 0;
+	theta = acos(adj / hyp);
+	//if (theta <= 0 || theta >= 3.14)
+	//{
+	//	theta = acos(-hyp / adj); 
+	//}
 	Vector2D newdir = Vector2D(cos(theta), sin(theta));
 	b.velocity = (b.velocity) + newdir * mag;
 }
